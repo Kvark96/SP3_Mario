@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Mario
+actor Alfonso
+rectangle MariosPizza  {
+
+
+ Alfonso -- (ChangeOrder)
+Alfonso -- (SeePizzalist)
+Alfonso -- (PlaceOrder)
+Alfonso --(Menucard)
+
+
+(ViewStatistics) -- Mario
+(SeePizzalist) -- Mario
+(Menucard) -- Mario
+
+
+
+usecase UC1 as "
+Alfonso takes the order, updating the pizza list.
+Mario Views the sorted orderlist, when done Alfonso removes
+the order from the orderlist, the order goes into the Statistics
+"
+@enduml
