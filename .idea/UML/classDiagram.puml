@@ -1,0 +1,37 @@
+@startuml
+hide circle
+hide methods
+
+Title Mario's Pizzeria
+
+Class Menu{
+    Pizza List
+    (Extra toppings)
+    Price List
+}
+
+Class User{}
+Class Order{
+    Order number
+    Pizza choices list
+    Pickup time
+    Total Price
+}
+Class System{
+    Order List
+    Statistics
+}
+Class Statistics{
+    Revenue
+    Sold pizza list
+}
+
+User "1"--"*" Order
+User "2"-- "1"System
+System "1"--"1" Menu
+System "1"--"*" Order
+System "1"--"1" Statistics
+Statistics "1"--"1" Menu
+Order "*" -- "1" Menu
+
+@enduml
