@@ -1,32 +1,44 @@
 @startuml
 
 Class Menu{
-    *Price List: Double
-    *Pizza: Object
-    *Pizza List
+    *Pizza list: Pizza[]
+    void printMenu()
 }
 
- Class Main {
- }
+Class Main {
+}
 
 Class Pizza{
-*Extra toppings: Array
+    *Price : Double
+    *Name : String
 }
 
 Class Order{
     *Order number: Int
-    *Pizza choices list: Arraylist
+    *Pizza choices list: List<Pizza>
     *Pickup time: Int
     *Total Price: Double
-    *Pizza: Object
+    Double calcPrice() : List<Pizza>
 }
 
 Class System{
-    * Order List: Arraylist
+    * Order List: List<Order>
     * Statistics: Object
+    void addOrder() : Order
+    void addPizza() : Int
 }
 Class Statistics{
     * Revenue: Double
-    * Sold pizza list: Arraylist
+    * Sold pizza list: Map<Int, Int>
+    void addPizza() : Map, Int
 }
+
+Pizza -- Order
+Order -left- System
+System -left- Statistics
+Menu -- Pizza
+Menu -left- Order
+Main -- System
+Main -- Menu
+
 @enduml

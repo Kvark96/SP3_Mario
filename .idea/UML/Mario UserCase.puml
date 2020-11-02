@@ -1,13 +1,14 @@
     @startuml
 left to right direction
 skinparam packageStyle rectangle
+skinparam actorStyle awesome
 
 actor Mario
 actor Alfonso
 rectangle MariosPizza  {
 
 
- Alfonso -- (ChangeOrder)
+Alfonso -- (ChangeOrder)
 Alfonso -- (SeePizzalist)
 Alfonso -- (PlaceOrder)
 Alfonso --(Menucard)
