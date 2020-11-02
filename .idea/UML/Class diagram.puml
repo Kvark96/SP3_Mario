@@ -16,7 +16,7 @@ Class Pizza{
 Class Order{
     *Order number: Int
     *Pizza choices list: Arraylist
-    *Pickup time:
+    *Pickup time: Int
     *Total Price: Double
     *Pizza: Object
 }
