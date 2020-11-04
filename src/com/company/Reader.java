@@ -1,16 +1,32 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
-/// shit doesnt work.....
+/// shit work :)
 
 public class Reader {
+    public static void main(String[] args) throws IOException {
+        // open file input stream
+        BufferedReader reader = new BufferedReader(new FileReader(
+                "Pizzaer.csv"));
+        // read file line by line
+        String line = null;
+        Scanner scanner = null;
+        int index = 0;
 
-    public static void main(String[] args) {
-        String filename = "Pizzaer Mario1.02.csv";
+
+        while ((line = reader.readLine()) != null) {
+
+            scanner = new Scanner(line);
+            System.out.println(line);
+        }
+    }
+}
+        /*
+        String filename = "Pizzaer.csv";
         File file = new File(filename);
+        System.out.println(file.length());
         try {
             Scanner input = new Scanner(file);
             while (input.hasNext()) {
@@ -22,4 +38,7 @@ public class Reader {
             e.printStackTrace();
         }
     }
-}
+
+
+         */
+
