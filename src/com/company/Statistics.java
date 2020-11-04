@@ -7,11 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Statistics {
-	private double revenue;
 	private Map<Integer, Integer> soldPizzas;
 
 	public Statistics(){
-		revenue = 0.0;
 		soldPizzas = new HashMap<>();
 	}
 
@@ -25,13 +23,21 @@ public class Statistics {
 	}
 
 	// Calculates the total revenue of pizzas sold.
-	public double calcRevenue(){
-		double result = 0;
+	private double calcRevenue(){
+		double result = 0.0;
 		for(int i = 0; i < Meny.menu.length; i++){
 			if(soldPizzas.containsKey(i)){
 				result = result + soldPizzas.get(i) * Meny.menu[i].price;
 			}
 		}
 		return result;
+	}
+
+	public double getRevenue() {
+		return calcRevenue();
+	}
+
+	public Map<Integer, Integer> getSoldPizzas() {
+		return soldPizzas;
 	}
 }

@@ -3,7 +3,7 @@ package com.company;
 
 
 public class Meny {
-    public static Pizza[] menu;
+    public static Pizza[] menu = new Pizza[2];
 
 
     //  We still need a constructor, just added
