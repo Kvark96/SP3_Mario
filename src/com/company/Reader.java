@@ -7,8 +7,17 @@ import java.util.Scanner;
 
 public class Reader {
 
+    public static void main(String[] args) {
+        try {
+            printPizzaMenu();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void printPizzaMenu() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("Pizzaer.csv"));
+        File file = new File("src/Pizzaer.csv");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         // read file line by line
         String line = null;
         Scanner scanner = null;
