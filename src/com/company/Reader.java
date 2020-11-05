@@ -6,7 +6,8 @@ import java.util.Scanner;
 /// shit work :)
 
 public class Reader {
-    public static void printPizzaMenu () throws IOException {
+
+    public static void printPizzaMenu() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader("Pizzaer.csv"));
         // read file line by line
         String line = null;
@@ -21,7 +22,7 @@ public class Reader {
         }
     }
 
-    public static void printAddons () throws IOException {
+    public static void printAddons() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader("Addons.csv"));
         // read file line by line
         String line = null;
@@ -35,17 +36,22 @@ public class Reader {
             System.out.println(line);
         }
     }
-
-
-
-
-
 }
 
 
 
 
+
+
+
 ///// Junk Code -- delete me at somepoint
+
+
+
+
+
+
+
 //        String filename = "Pizzaer.csv";
 //        File file = new File(filename);
 //        System.out.println(file.length());
