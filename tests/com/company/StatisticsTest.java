@@ -8,7 +8,6 @@ class StatisticsTest {
 	Statistics statistics = new Statistics();
 
 
-
 	@Test
 	void addPizza() {
 		statistics.getSoldPizzas().put(0, 1);
