@@ -3,6 +3,10 @@ package com.company;
     Written by Oliver Juul Reder on the 03. of November, 2020.
 */
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Clock;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,4 +38,19 @@ public class Statistics {
 		}
 		return result;
 	}
+
+/*			This works, we just need Order.java
+	public void saveOrder(Order order){
+		String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
+		try{
+			FileWriter myWriter = new FileWriter(filename, true);
+			myWriter.write(order + "\n");
+			myWriter.close();
+			System.out.println("Successfully saved order.");
+		} catch (IOException e){
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+*/
 }
