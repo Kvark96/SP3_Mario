@@ -14,7 +14,7 @@ double price;
     }
     @Override
     public String toString(){
-        return "\nID="+getId()+", Addon: "+getName()+", Pris i DKK="+getPrice();
+        return "\nID="+getId()+",   Addon: "+getName()+", Pris="+getPrice();
     }
 
     public int getId() {
