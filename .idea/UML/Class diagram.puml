@@ -9,6 +9,7 @@ Class Main {
 }
 
 Class Pizza{
+    *ID : int
     *Price : Double
     *Name : String
 }
