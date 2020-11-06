@@ -1,14 +1,22 @@
 @startuml
 
-Class Menu{
+Class Reader{
     *Pizza list: Pizza[]
-    void printMenu()
+    * Addon list: Addons[]
+
 }
 
 Class Main {
 }
 
+Class Addons{
+    *ID : int
+    *Price : Double
+    *Name : String
+}
+
 Class Pizza{
+    *ID : int
     *Price : Double
     *Name : String
 }
@@ -33,12 +41,11 @@ Class Statistics{
     void addPizza() : Map, Int
 }
 
-Pizza -- Order
+Reader -- Order
 Order -left- System
 System -left- Statistics
-Menu -- Pizza
-Menu -left- Order
 Main -- System
-Main -- Menu
+Reader -- Pizza
+Reader -- Addons
 
 @enduml

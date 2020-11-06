@@ -6,6 +6,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
+        Meny meny = new Meny();
         Map<String, Integer> soldPizzas = new HashMap<>();
         addPizza(soldPizzas, "pepperoni");
         addPizza(soldPizzas, "hawaii");
@@ -14,13 +15,12 @@ public class Main {
     }
 
     /*
-    * map <type, type>
-    * {key, value}
-    * map.get(key) -> value
-    * map.put(key,value) -> {key, value}
-    * */
-
-    static void addPizza(Map<String,Integer> map, String pizza){
+     * map <type, type>
+     * {key, value}
+     * map.get(key) -> value
+     * map.put(key,value) -> {key, value}
+     * */
+    public static void addPizza(Map<String,Integer> map, String pizza){
         if(map.containsKey(pizza)){
             map.put(pizza, map.get(pizza) + 1);
         } else {
