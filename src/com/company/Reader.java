@@ -13,13 +13,17 @@ public class Reader {
 
     public static void main(String[] args) {
         List<Pizza> pizzaList = new ArrayList<Pizza>();
+        List<Addons> addonsList = new ArrayList<Addons>();
+
         try {
             printPizzaMenu(pizzaList);
+           printAddons(addonsList);
         } catch (IOException e) {
             e.printStackTrace();
         }
         addToOrder(4, "reuja", pizzaList);
     }
+
 
     public static void addToOrder(int id, String order, List<Pizza> pizzaList) {
         for (Pizza p: pizzaList) {
@@ -34,7 +38,7 @@ public class Reader {
     public static void printPizzaMenu(List<Pizza> pizzaList) throws IOException {
         File file = new File("src/Pizzaer.csv");
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        // read file line by line
+
         String line = null;
         Scanner scanner = null;
         int index = 0;
@@ -66,21 +70,41 @@ public class Reader {
 
 
 
-    public static void printAddons() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("Addons.csv"));
-        // read file line by line
+    public static void printAddons(List<Addons> AddonList) throws IOException {
+        File file = new File("src/Addons.csv");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
         Scanner scanner = null;
         int index = 0;
 
 
-        while ((line = reader.readLine()) != null) {
 
-            scanner = new Scanner(line);
-            System.out.println(line);
+
+
+            while ((line = reader.readLine()) != null) {
+                scanner = new Scanner(line);
+                scanner.useDelimiter(";");
+                Addons addon = new Addons();
+                AddonList.add(addon);
+                index = 0;
+                while (scanner.hasNext()) {
+                    String data = scanner.next();
+                    if (index == 0) {
+                        addon.setId((Integer.parseInt(data)));
+                    } else if (index == 1) {
+                        addon.setName(data);
+                    } else if (index == 2) {
+                        addon.setPrice(Double.parseDouble(data));
+                    } else {
+                        System.out.println("invalid data::" + data);
+                    }
+                    index++;
+                }
+            }
+            System.out.println(AddonList);
         }
-    }
-}
+        }
+
 
 
 
