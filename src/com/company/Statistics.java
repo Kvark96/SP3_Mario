@@ -1,21 +1,17 @@
 package com.company;
 /*
-    Written by Oliver Juul Reder on the 03. of November, 2020.
+    Written by Oliver Juul Reder on the 03.11.2020.
 */
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Clock;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Statistics {
-	private double revenue;
 	private Map<Integer, Integer> soldPizzas;
 
 	public Statistics(){
-		revenue = 0.0;
 		soldPizzas = new HashMap<>();
 	}
 
@@ -29,7 +25,7 @@ public class Statistics {
 	}
 
 	// Calculates the total revenue of pizzas sold.
-	public double calcRevenue(){
+	public double getRevenue(){
 		double result = 0;
 		for(int i = 0; i < Meny.menu.length; i++){
 			if(soldPizzas.containsKey(i)){
@@ -39,7 +35,7 @@ public class Statistics {
 		return result;
 	}
 
-/*			This works, we just need Order.java
+	// This works, we just need Order.java
 	public void saveOrder(Order order){
 		String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
 		try{
@@ -52,5 +48,4 @@ public class Statistics {
 			e.printStackTrace();
 		}
 	}
-*/
 }
