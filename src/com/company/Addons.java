@@ -12,10 +12,9 @@ double price;
         this.name = name;
         this.price = price;
     }
-
     @Override
     public String toString(){
-        return "\nID="+getId()+"::Pizza: "+getName()+"::Price ="+getPrice();
+        return "\nID="+getId()+", Addon: "+getName()+", Pris i DKK="+getPrice();
     }
 
     public int getId() {
