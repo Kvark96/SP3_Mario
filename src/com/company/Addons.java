@@ -1,13 +1,12 @@
 package com.company;
 
 public class Addons {
+    private int id;
+    private String name;
+    private double price;
 
-int id;
-String name;
-double price;
 
-
-    public Addons() {
+    public Addons(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;

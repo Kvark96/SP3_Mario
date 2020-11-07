@@ -32,11 +32,11 @@ class StatisticsTest {
 		// TODO: Test after implementation of price list.
 		statistics.getSoldPizzas().put(0, 1);
 		statistics.getSoldPizzas().put(1, 3);
-		Pizza pep = new Pizza(55.0, "Pepperoni");
-		Pizza haw = new Pizza(60.0, "Hawaii");
+		Pizza pep = new Pizza(14, 55.0, "Pepperoni");
+		Pizza haw = new Pizza(15, 60.0, "Hawaii");
 		Meny.menu[0] = pep;
 		Meny.menu[1] = haw;
-		System.out.println("Menu is : " + Meny.menu[0].Name + Meny.menu[1].Name);
+		System.out.println("Menu is : " + Meny.menu[0].name + Meny.menu[1].name);
 		System.out.println("soldPizzas is : " + statistics.getSoldPizzas());
 		assertEquals(235.0, statistics.getRevenue());
 	}

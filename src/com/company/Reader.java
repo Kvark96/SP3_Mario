@@ -84,7 +84,7 @@ public class Reader {
             while ((line = reader.readLine()) != null) {
                 scanner = new Scanner(line);
                 scanner.useDelimiter(";");
-                Addons addon = new Addons();
+                Addons addon = new Addons(0, "cheese",0);
                 AddonList.add(addon);
                 index = 0;
                 while (scanner.hasNext()) {

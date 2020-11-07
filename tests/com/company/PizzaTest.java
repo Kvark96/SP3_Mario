@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PizzaTest {
-	Pizza pep = new Pizza(60.0, "Pepperoni");
-	Pizza none = new Pizza(0.0, "");
+	Pizza pep = new Pizza(14, 60.0, "Pepperoni");
+	Pizza none = new Pizza(-1, 0.0, "");
 
 
 	@Test
@@ -18,7 +18,7 @@ class PizzaTest {
 
 	@Test
 	public void testName(){
-		assertEquals("Pepperoni", pep.Name);
-		assertEquals("", none.Name);
+		assertEquals("Pepperoni", pep.name);
+		assertEquals("", none.name);
 	}
 }

@@ -36,6 +36,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -59,8 +62,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="120" y="0" key="#Project_Structure" timestamp="1604761363963">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="120" y="0" key="#Project_Structure/0.0.1280.689@0.0.1280.689" timestamp="1604761363963" />
+    <state x="432" y="203" key="#Scopes" timestamp="1604761379855">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="432" y="203" key="#Scopes/0.0.1280.689@0.0.1280.689" timestamp="1604761379855" />
     <state x="420" y="85" key="FileChooserDialogImpl" timestamp="1604606884851">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
