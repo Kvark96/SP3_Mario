@@ -16,7 +16,7 @@ public class Pizza {
 
     @Override
     public String toString(){
-        return "\nID="+getId()+"   Pizza: "+getName()+"Pris="+getPrice();
+        return "\nID="+getId()+"   Pizza: "+getName()+" Pris="+getPrice();
     }
 
 
