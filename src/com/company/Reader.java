@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/// shit work :)
+// author Sebastian Hejlesen
 
 public class Reader {
 
@@ -13,26 +13,37 @@ public class Reader {
 
     public static void main(String[] args) {
         List<Pizza> pizzaList = new ArrayList<Pizza>();
-        List<Addons> addonsList = new ArrayList<Addons>();
-
-        try {
-            printPizzaMenu(pizzaList);
+        List<Addons> addonsList = new ArrayList<Addons>();try {
+           printPizzaMenu(pizzaList);
            printAddons(addonsList);
         } catch (IOException e) {
             e.printStackTrace();
         }
         addToOrder(4, "reuja", pizzaList);
+        addToOrder(1, "102",pizzaList);
     }
 
 
-    public static void addToOrder(int id, String order, List<Pizza> pizzaList) {
+    public static void addToOrder(int id, String order, List<Pizza> pizzaList){
         for (Pizza p: pizzaList) {
             if(p.id == id) {
                 System.out.println(p);
                 //add pizza to order
                 return;
             }
+            /*for (Addons a: addonsList) {
+                if (a.id == id) {
+                    System.out.println(a);
+                    //add pizza to order
+                    return;
+                }
+            }
+            */
+
+
         }
+
+
     }
 
     public static void printPizzaMenu(List<Pizza> pizzaList) throws IOException {
