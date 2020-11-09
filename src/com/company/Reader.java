@@ -11,22 +11,24 @@ import java.util.Scanner;
 
 public class Reader {
 
+    List<Pizza> pizzaList = new ArrayList<Pizza>();
+    List<Addons> addonsList = new ArrayList<Addons>();
 
-    public static void main(String[] args) {
-        List<Pizza> pizzaList = new ArrayList<Pizza>();
-        List<Addons> addonsList = new ArrayList<Addons>();
 
-        try {
-            readPizzaMenu(pizzaList);
-            readAddonMenu(addonsList);
+   // public static void main(String[] args) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        printPizzaMenu(pizzaList);
-        printaddonslist(addonsList);
 
-    }
+       // try {
+//            readPizzaMenu(pizzaList);
+//            readAddonMenu(addonsList);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        printPizzaMenu(pizzaList);
+//        printaddonslist(addonsList);
+//
+//    }
 
 
     public static void addPizzaToOrder(int id, String order, List<Pizza> pizzaList) {
