@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class Reader {
 
-    List<Pizza> pizzaList = new ArrayList<Pizza>();
-    List<Addons> addonsList = new ArrayList<Addons>();
+    static List<Pizza> pizzaList = new ArrayList<Pizza>();
+    static List<Addons> addonsList = new ArrayList<Addons>();
 
 
    // public static void main(String[] args) {
