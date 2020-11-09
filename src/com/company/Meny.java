@@ -1,17 +1,14 @@
 package com.company;
 
-
+// Denne klasse vil bliver slette, man skal bruge arrays fra reader klassen.
 
 public class Meny {
     public static Pizza[] menu;
 
 
-    //  We still need a constructor, just added
-    // this so I could call it. :) -Oliver
 
-    //Read pizza from CSV to Pizza list
-    // Merge reader and menu
-    // Make Pizza print out method:
+
+
 
 
 
