@@ -27,10 +27,28 @@ public class User {
 					// Add pizza to order
 			if(input.startsWith("add ")){
 				try {
+					Pizza newPizza;
 					int id = Integer.parseInt(input.substring(4));
 					for(Pizza p : Reader.pizzaList){
-						if(id == p.id){
-							pizzasInOrder.add(p);
+						if(id == p.id) {
+							newPizza = p;
+							System.out.println("Please select addons. Type \"done\" when finished");
+							input = takeInput();
+							if(input.startsWith("done")){
+								continue;
+							} else {
+								try {
+									int addonId = Integer.parseInt(input);
+									for(Addons a : Reader.addonsList){
+										if(addonId == a.getId()){
+											newPizza.addonList.add(a);
+										}
+									}
+								} catch (Exception e) {
+									System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
+								}
+						}
+							pizzasInOrder.add(newPizza);
 						}
 					}
 				} catch (Exception e){
