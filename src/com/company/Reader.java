@@ -5,29 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/// shit work :)
+// author Sebastian Hejlesen
+
+
 
 public class Reader {
 
+    static List<Pizza> pizzaList = new ArrayList<Pizza>();
+    static List<Addons> addonsList = new ArrayList<Addons>();
 
 
-    public static void main(String[] args) {
-        List<Pizza> pizzaList = new ArrayList<Pizza>();
-        List<Addons> addonsList = new ArrayList<Addons>();
-
-        try {
-            printPizzaMenu(pizzaList);
-           printAddons(addonsList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        addToOrder(4, "reuja", pizzaList);
-    }
+   // public static void main(String[] args) {
 
 
-    public static void addToOrder(int id, String order, List<Pizza> pizzaList) {
-        for (Pizza p: pizzaList) {
-            if(p.id == id) {
+       // try {
+//            readPizzaMenu(pizzaList);
+//            readAddonMenu(addonsList);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        printPizzaMenu(pizzaList);
+//        printaddonslist(addonsList);
+//
+//    }
+
+
+    public static void addPizzaToOrder(int id, String order, List<Pizza> pizzaList) {
+        for (Pizza p : pizzaList) {
+            if (p.id == id) {
                 System.out.println(p);
                 //add pizza to order
                 return;
@@ -35,7 +41,8 @@ public class Reader {
         }
     }
 
-    public static void printPizzaMenu(List<Pizza> pizzaList) throws IOException {
+
+    public static void readPizzaMenu(List<Pizza> pizzaList) throws IOException {
         File file = new File("src/Pizzaer.csv");
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -64,13 +71,11 @@ public class Reader {
                 index++;
             }
         }
-        System.out.println(pizzaList);
+
     }
 
 
-
-
-    public static void printAddons(List<Addons> AddonList) throws IOException {
+    public static void readAddonMenu(List<Addons> addonList) throws IOException {
         File file = new File("src/Addons.csv");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
@@ -78,46 +83,43 @@ public class Reader {
         int index = 0;
 
 
-
-
-
-            while ((line = reader.readLine()) != null) {
-                scanner = new Scanner(line);
-                scanner.useDelimiter(";");
-                Addons addon = new Addons();
-                AddonList.add(addon);
-                index = 0;
-                while (scanner.hasNext()) {
-                    String data = scanner.next();
-                    if (index == 0) {
-                        addon.setId((Integer.parseInt(data)));
-                    } else if (index == 1) {
-                        addon.setName(data);
-                    } else if (index == 2) {
-                        addon.setPrice(Double.parseDouble(data));
-                    } else {
-                        System.out.println("invalid data::" + data);
-                    }
-                    index++;
+        while ((line = reader.readLine()) != null) {
+            scanner = new Scanner(line);
+            scanner.useDelimiter(";");
+            Addons addon = new Addons(0, "cheese", 0);
+            addonList.add(addon);
+            index = 0;
+            while (scanner.hasNext()) {
+                String data = scanner.next();
+                if (index == 0) {
+                    addon.setId((Integer.parseInt(data)));
+                } else if (index == 1) {
+                    addon.setName(data);
+                } else if (index == 2) {
+                    addon.setPrice(Double.parseDouble(data));
+                } else {
+                    System.out.println("invalid data::" + data);
                 }
+                index++;
             }
-            System.out.println(AddonList);
         }
-        }
+    }
 
 
+    public static void printPizzaMenu(List<Pizza> pizzalist) {
+
+        System.out.println(pizzalist);
+    }
+
+    public static void printaddonslist(List<Addons> addonList) {
+        System.out.println(addonList);
+    }
 
 
-
-
+}
 
 
 ///// Junk Code -- delete me at somepoint
-
-
-
-
-
 
 
 //        String filename = "Pizzaer.csv";

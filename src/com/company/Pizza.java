@@ -1,12 +1,14 @@
 package com.company;
 
 import java.io.PipedInputStream;
+import java.util.ArrayList;
 
 public class Pizza {
 
     int id;
     double price;
     String name;
+    ArrayList<Addons> addonList = new ArrayList<>();
 
     public Pizza(int id, double price, String name) {
         this.id = id;
@@ -16,7 +18,7 @@ public class Pizza {
 
     @Override
     public String toString(){
-        return "\nID="+getId()+"   Pizza: "+getName()+"Pris="+getPrice();
+        return "\nID="+getId()+"   Pizza: "+getName()+" Pris="+getPrice();
     }
 
 
