@@ -33,20 +33,25 @@ public class User {
                         if (id == p.id) {
                             newPizza = p;
                             System.out.println("Please select addons. Type \"done\" when finished");
-                            input = takeInput();
-                            if (input.startsWith("done")) {
-                                System.out.println("Add additional pizzas or type \"end\".");
-                                continue;
-                            } else {
-                                try {
-                                    int addonId = Integer.parseInt(input);
-                                    for (Addons a : Reader.addonsList) {
-                                        if (addonId == a.getId()) {
-                                            newPizza.addonList.add(a);
+
+                            boolean moreAddons = true;
+                            while(moreAddons) {
+                                input = takeInput();
+                                if (input.startsWith("done")) {
+                                    moreAddons = false;
+                                    System.out.println("Add additional pizzas or type \"end\".");
+                                } else {
+                                    try {
+                                        int addonId = Integer.parseInt(input);
+                                        for (Addons a : Reader.addonsList) {
+                                            if (addonId == a.getId()) {
+                                                newPizza.addonList.add(a);
+                                                System.out.println(a + " was added");
+                                            }
                                         }
+                                    } catch (Exception e) {
+                                        System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
                                     }
-                                } catch (Exception e) {
-                                    System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
                                 }
                             }
                             pizzasInOrder.add(newPizza);
@@ -64,6 +69,7 @@ public class User {
                     for (Pizza p : Reader.pizzaList) {
                         if (id == p.id) {
                             pizzasInOrder.remove(p);
+                            System.out.println("Pizza " + id + " was removed from the order.");
                         }
                     }
                 } catch (Exception e) {
@@ -78,7 +84,7 @@ public class User {
                     pickupTime = Integer.parseInt(takeInput());
                     finished = true;
                 } catch (Exception e) {
-                    System.out.println("Pickup time was not recognized. Please try again.");
+                    System.out.println("Pickup time was not recognized. Type \"end\" to try again.");
                 }
             }
         }

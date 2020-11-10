@@ -40,10 +40,13 @@ public class Order {
     private String pizzasToString(ArrayList<Pizza> pizzas){
         String str = "";
         for(Pizza p : pizzas){
-            str = "\n\t" + str + p.name;
+            String pizStr = p.name;
+            String addons = "";
             for(Addons a : p.addonList){
-                str = " with" + str + a.getName() + " ";
+                addons = addons + " + " + a.getName();
             }
+            pizStr = pizStr + addons + "\n";
+            str = str + "\n\t" + pizStr;
         }
         return str;
     }
