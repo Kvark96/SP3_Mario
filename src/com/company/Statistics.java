@@ -1,8 +1,10 @@
 package com.company;
 /*
-    Written by Oliver Juul Reder on the 03. of November, 2020.
+    Written by Oliver Juul Reder on the 03.11.2020.
 */
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +25,8 @@ public class Statistics {
 	}
 
 	// Calculates the total revenue of pizzas sold.
-	private double calcRevenue(){
-		double result = 0.0;
+	public double getRevenue(){
+		double result = 0;
 		for(int i = 0; i < Meny.menu.length; i++){
 			if(soldPizzas.containsKey(i)){
 				result = result + soldPizzas.get(i) * Meny.menu[i].price;
@@ -33,11 +35,17 @@ public class Statistics {
 		return result;
 	}
 
-	public double getRevenue() {
-		return calcRevenue();
-	}
-
-	public Map<Integer, Integer> getSoldPizzas() {
-		return soldPizzas;
+	// This works, we just need Order.java
+	public void saveOrder(Order order){
+		String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
+		try{
+			FileWriter myWriter = new FileWriter(filename, true);
+			myWriter.write(order + "\n");
+			myWriter.close();
+			System.out.println("Successfully saved order.");
+		} catch (IOException e){
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
 	}
 }
