@@ -11,28 +11,42 @@ public class Order {
     final int pickup;
 
 
-    public Order (ArrayList<Pizza> pizzaList, int pickup) {
-       numOfOrders++;
-       orderNumber = numOfOrders;
-       this.pizzaList = pizzaList;
-       this.pickup = pickup;
+    public Order(ArrayList<Pizza> pizzaList, int pickup) {
+        numOfOrders++;
+        orderNumber = numOfOrders;
+        this.pizzaList = pizzaList;
+        this.pickup = pickup;
     }
 
-    public double calcPrice () {
+    public double calcPrice() {
         double result = 0.0;
-      for (Pizza pizza : pizzaList) {
-        result = result + pizza.price;
-      }
+        for (Pizza pizza : pizzaList) {
+            for (Addons a : pizza.addonList) {
+                result = result + a.getPrice();
+            }
+            result = result + pizza.price;
+        }
         return result;
     }
-    public double getPrice(){
-        return calcPrice();
+
+    @Override
+    public String toString() {
+        return "\nOrder number = " + orderNumber +
+                "\nPizzas = " + pizzasToString(pizzaList) +
+                "\nPickup = " + pickup +
+                "\nTotal price = " + calcPrice();
     }
 
-  @Override
-  public String toString() {
-    return "orderNumber = " + orderNumber + ", pizzaList = " + pizzaList + ", pickup = " + pickup;
-  }
+    private String pizzasToString(ArrayList<Pizza> pizzas){
+        String str = "";
+        for(Pizza p : pizzas){
+            str = "\n\t" + str + p.name;
+            for(Addons a : p.addonList){
+                str = " with" + str + a.getName() + " ";
+            }
+        }
+        return str;
+    }
 }
 
 
