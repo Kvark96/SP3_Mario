@@ -3,6 +3,7 @@ package com.company;
 import java.io.PipedInputStream;
 import java.util.ArrayList;
 
+// Author Sebastian Hejlesen
 public class Pizza {
 
     int id;
