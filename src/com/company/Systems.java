@@ -1,9 +1,10 @@
 package com.company;
+
 // Written by Tobias Linge 05-11-2020.
+
 
 import java.util.ArrayList;
 
-/*
 public class Systems
 {
     ArrayList<Order> orderArrayList;
@@ -15,18 +16,20 @@ public class Systems
         this.statistic = new Statistics();
     }
 
+
     public void addOrder(Order order)
     {
         orderArrayList.add(order);
     }
 
-    public void removeOrder(int i)
+    public  void removeOrder(int i)
     {
         orderArrayList.remove(i);
     }
 
-  /*  public void addPizza()
+   /* public void addPizza()
     {
 
-   */ //}
-//}
+    }*/
+
+}
