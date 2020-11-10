@@ -5,6 +5,7 @@ package com.company;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,20 +17,23 @@ public class Statistics {
 	}
 
 	// Adds pizza to hashmap of soldPizzas.
-	public void addPizza(int index){
-		if(soldPizzas.containsKey(index)){
-			soldPizzas.put(index, soldPizzas.get(index) + 1);
-		} else {
-			soldPizzas.put(index, 1);
-		}
+	public void addPizza(ArrayList<Pizza> pizzas){
+	    for(Pizza p : pizzas){
+         int index = p.id;
+	        if(soldPizzas.containsKey(index)){
+             soldPizzas.put(index, soldPizzas.get(index) + 1);
+         } else {
+             soldPizzas.put(index, 1);
+         }
+     }
 	}
 
 	// Calculates the total revenue of pizzas sold.
 	public double getRevenue(){
 		double result = 0;
-		for(int i = 0; i < Meny.menu.length; i++){
+		for(int i = 0; i < Reader.pizzaList.size(); i++){
 			if(soldPizzas.containsKey(i)){
-				result = result + soldPizzas.get(i) * Meny.menu[i].price;
+				result = result + soldPizzas.get(i) * Reader.pizzaList.get(i).price;
 			}
 		}
 		return result;
@@ -47,5 +51,9 @@ public class Statistics {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
+	}
+
+	public Map<Integer, Integer> getSoldPizzas() {
+		return soldPizzas;
 	}
 }

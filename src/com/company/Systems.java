@@ -3,33 +3,93 @@ package com.company;
 // Written by Tobias Linge 05-11-2020.
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Systems
 {
     ArrayList<Order> orderArrayList;
     Statistics statistic;
-
+    User user = new User();
 
     public Systems() {
         orderArrayList = new ArrayList<Order>();
         this.statistic = new Statistics();
+        setup();
+        run();
     }
 
 
     public void addOrder(Order order)
     {
         orderArrayList.add(order);
+        updateOrders();
     }
 
-    public  void removeOrder(int i)
+    public  void removeOrder()
     {
-        orderArrayList.remove(i);
+        String input = user.takeInput();
+        try{
+            int in = Integer.parseInt(input);
+            int del = -1;
+            for(int n = 0; n < orderArrayList.size(); n++){
+                if(in == orderArrayList.get(n).orderNumber){
+                    del = n;
+                }
+            }
+            try{
+                System.out.println("Save order in statistics? y / n");
+                if(user.takeInput().toLowerCase().startsWith("y")){
+                    statistic.saveOrder(orderArrayList.get(del));
+                    statistic.addPizza(orderArrayList.get(del).pizzaList);
+                    orderArrayList.remove(del);
+                } else {
+                    orderArrayList.remove(del);
+                }
+            } catch(Exception e){
+                System.out.println("Input was not recognized.");
+            }
+        } catch (Exception e){
+            System.out.println("Order Number was not recognized.");
+        }
+        updateOrders();
     }
 
-   /* public void addPizza()
-    {
+    private void updateOrders(){
+        Reader.printPizzaMenu();
+        Reader.printaddonslist();
+        System.out.println(orderArrayList);
+    }
 
-    }*/
+    private void setup(){
+        try {
+            Reader.readAddonMenu();
+            Reader.readPizzaMenu();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Reader.printPizzaMenu();
+        Reader.printaddonslist();
+    }
 
+
+    private void run(){
+        String input = user.takeInput().toLowerCase();
+        switch (input) {
+            case "new order":
+                addOrder(user.newOrder());
+                run();
+                break;
+            case "remove order":
+                removeOrder();
+                run();
+                break;
+            case "close":
+                System.out.println("Total revenue is: " + statistic.getRevenue());
+                break;
+            default:
+                System.out.println("Input was not recognized.");
+                run();
+        }
+    }
 }
