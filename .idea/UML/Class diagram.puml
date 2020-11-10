@@ -41,7 +41,7 @@ Class Statistics{
     void addPizza() : Map, Int
 }
 
-Reader -- Order
+Reader -- System
 Order -left- System
 System -left- Statistics
 Main -- System
