@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// author Sebastian Hejlesen
-
+// Author Sebastian Hejlesen
 
 
 public class Reader {
@@ -15,10 +14,10 @@ public class Reader {
     static List<Addons> addonsList = new ArrayList<Addons>();
 
 
-   // public static void main(String[] args) {
+    // public static void main(String[] args) {
 
 
-       // try {
+    // try {
 //            readPizzaMenu(pizzaList);
 //            readAddonMenu(addonsList);
 //
@@ -119,23 +118,6 @@ public class Reader {
 }
 
 
-///// Junk Code -- delete me at somepoint
-
-
-//        String filename = "Pizzaer.csv";
-//        File file = new File(filename);
-//        System.out.println(file.length());
-//        try {
-//            Scanner input = new Scanner(file);
-//            while (input.hasNext()) {
-//                String data = input.next();
-//                System.out.println(data);
-//            }
-//            input.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
 
