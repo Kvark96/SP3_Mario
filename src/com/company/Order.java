@@ -1,6 +1,6 @@
 package com.company;
 
-// Made by Nicolai Orbe. Det er ikke det bedste stykke arbejde, men kunne ikke finde ud af det :)
+// Made by Nicolai Orbe.
 
 import java.util.ArrayList;
 

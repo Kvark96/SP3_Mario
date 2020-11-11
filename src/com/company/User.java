@@ -25,7 +25,7 @@ public class User {
             String input = takeInput();
 
             // Add pizza to order
-            if (input.startsWith("add ")) {
+            if (input.startsWith("add")) {
                 try {
                     Pizza newPizza;
                     int id = Integer.parseInt(input.substring(4));
