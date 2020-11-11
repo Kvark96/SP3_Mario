@@ -6,49 +6,25 @@ package com.company;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Statistics {
-    private Map<Integer, Integer> soldPizzas;
-    private Map<Integer, Integer> soldAddons;
+
+    private ArrayList<Order> soldOrders;
+
     public Statistics() {
-        soldAddons = new HashMap<>();
-        soldPizzas = new HashMap<>();
+        soldOrders = new ArrayList<>();
     }
 
     // Adds pizza to hashmap of soldPizzas.
-    public void addPizza(ArrayList<Pizza> pizzas) {
-        for (Pizza p : pizzas) {
-            int pIndex = p.id;
-            if (soldPizzas.containsKey(pIndex)) {
-                soldPizzas.put(pIndex, soldPizzas.get(pIndex) + 1);
-            } else {
-                soldPizzas.put(pIndex, 1);
-            }
-            for(Addons a : p.addonList){
-                int aIndex = a.getId();
-                if(soldAddons.containsKey(aIndex)){
-                    soldAddons.put(aIndex, soldAddons.get(aIndex) + 1);
-                } else {
-                    soldAddons.put(aIndex, 1);
-                }
-            }
-        }
+    public void addOrderToStat(Order order) {
+        soldOrders.add(order);
     }
 
     // Calculates the total revenue of pizzas sold.
     public double getRevenue() {
         double result = 0;
-        for (int i = 0; i < Reader.pizzaList.size(); i++) {
-            if (soldPizzas.containsKey(i)) {
-                result = result + soldPizzas.get(i) * Reader.pizzaList.get(i).getPrice();
-            }
-        }
-        for(int j = 0; j < Reader.addonsList.size(); j++){
-            if(soldAddons.containsKey(j)){
-                result = result + soldAddons.get(j) * Reader.addonsList.get(j).getPrice();
-            }
+        for(Order o : soldOrders){
+            result = result + o.calcPrice();
         }
         return result;
     }
@@ -66,7 +42,5 @@ public class Statistics {
         }
     }
 
-    public Map<Integer, Integer> getSoldPizzas() {
-        return soldPizzas;
-    }
+    public ArrayList<Order> getSoldOrders() { return soldOrders; }
 }
