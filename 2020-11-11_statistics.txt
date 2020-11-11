@@ -1,0 +1,14 @@
+
+Order number = 1
+Pizzas = 
+	Vesuvio: tomatsauce, ost, skine og oregano +  Familiepizza
+
+Pickup = 1900
+Total price = 92.0
+
+Order number = 1
+Pizzas = 
+	Vesuvio: tomatsauce, ost, skine og oregano +  Familiepizza
+
+Pickup = 1900
+Total price = 92.0

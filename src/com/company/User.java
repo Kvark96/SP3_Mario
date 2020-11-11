@@ -20,7 +20,7 @@ public class User {
         ArrayList<Pizza> pizzasInOrder = new ArrayList<>();
         int pickupTime = -1;
 
-        System.out.println("Enter the new order.");
+        System.out.println("Enter the new order - type \"add\" and pizza \"number\".");
         while (!finished) {
             String input = takeInput();
 
@@ -32,21 +32,21 @@ public class User {
                     for (Pizza p : Reader.pizzaList) {
                         if (id == p.id) {
                             newPizza = p;
-                            System.out.println("Please select addons. Type \"done\" when finished");
+                            System.out.println("Please select addons - type \"number\" or type \"done\" if finished.");
 
                             boolean moreAddons = true;
                             while(moreAddons) {
                                 input = takeInput();
                                 if (input.startsWith("done")) {
                                     moreAddons = false;
-                                    System.out.println("Add additional pizzas or type \"end\".");
+                                    System.out.println("Add additional pizzas - type \"add\" and pizza \"number\" or type \"end\" to finish the order." );
                                 } else {
                                     try {
                                         int addonId = Integer.parseInt(input);
                                         for (Addons a : Reader.addonsList) {
                                             if (addonId == a.getId()) {
                                                 newPizza.addonList.add(a);
-                                                System.out.println(a + " was added");
+                                                System.out.println(a + " was added. \nTo add more type \"number\" or type \"done\" if finished.");
                                             }
                                         }
                                     } catch (Exception e) {
