@@ -28,6 +28,7 @@ public class Systems
 
     public  void removeOrder()
     {
+        System.out.println("Please enter order number");
         String input = user.takeInput();
         try{
             int in = Integer.parseInt(input);
@@ -58,7 +59,7 @@ public class Systems
     private void updateOrders(){
         Reader.printPizzaMenu();
         Reader.printaddonslist();
-        System.out.println(orderArrayList);
+        printOrders();
     }
 
     private void setup(){
@@ -74,6 +75,7 @@ public class Systems
 
 
     private void run(){
+        System.out.println("Please enter \"new order\", \"remove order\" or \"close\".");
         String input = user.takeInput().toLowerCase();
         switch (input) {
             case "new order":
@@ -90,6 +92,12 @@ public class Systems
             default:
                 System.out.println("Input was not recognized.");
                 run();
+        }
+    }
+
+    private void printOrders(){
+        for(Order o : orderArrayList){
+            System.out.println(o);
         }
     }
 }
