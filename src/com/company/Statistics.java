@@ -11,19 +11,28 @@ import java.util.Map;
 
 public class Statistics {
     private Map<Integer, Integer> soldPizzas;
-
+    private Map<Integer, Integer> soldAddons;
     public Statistics() {
+        soldAddons = new HashMap<>();
         soldPizzas = new HashMap<>();
     }
 
     // Adds pizza to hashmap of soldPizzas.
     public void addPizza(ArrayList<Pizza> pizzas) {
         for (Pizza p : pizzas) {
-            int index = p.id;
-            if (soldPizzas.containsKey(index)) {
-                soldPizzas.put(index, soldPizzas.get(index) + 1);
+            int pIndex = p.id;
+            if (soldPizzas.containsKey(pIndex)) {
+                soldPizzas.put(pIndex, soldPizzas.get(pIndex) + 1);
             } else {
-                soldPizzas.put(index, 1);
+                soldPizzas.put(pIndex, 1);
+            }
+            for(Addons a : p.addonList){
+                int aIndex = a.getId();
+                if(soldAddons.containsKey(aIndex)){
+                    soldAddons.put(aIndex, soldAddons.get(aIndex) + 1);
+                } else {
+                    soldAddons.put(aIndex, 1);
+                }
             }
         }
     }
@@ -33,13 +42,17 @@ public class Statistics {
         double result = 0;
         for (int i = 0; i < Reader.pizzaList.size(); i++) {
             if (soldPizzas.containsKey(i)) {
-                result = result + soldPizzas.get(i) * Reader.pizzaList.get(i).price;
+                result = result + soldPizzas.get(i) * Reader.pizzaList.get(i).getPrice();
+            }
+        }
+        for(int j = 0; j < Reader.addonsList.size(); j++){
+            if(soldAddons.containsKey(j)){
+                result = result + soldAddons.get(j) * Reader.addonsList.get(j).getPrice();
             }
         }
         return result;
     }
 
-    // This works, we just need Order.java
     public void saveOrder(Order order) {
         String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
         try {
