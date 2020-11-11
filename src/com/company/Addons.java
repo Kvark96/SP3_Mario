@@ -1,5 +1,5 @@
 package com.company;
-
+//author Sebastian Hejlesen
 public class Addons {
     private int id;
     private String name;

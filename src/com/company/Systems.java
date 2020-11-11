@@ -42,7 +42,7 @@ public class Systems
                 System.out.println("Save order in statistics? y / n");
                 if(user.takeInput().toLowerCase().startsWith("y")){
                     statistic.saveOrder(orderArrayList.get(del));
-                    statistic.addPizza(orderArrayList.get(del).pizzaList);
+                    statistic.addOrderToStat(orderArrayList.get(del));
                     orderArrayList.remove(del);
                 } else {
                     orderArrayList.remove(del);
