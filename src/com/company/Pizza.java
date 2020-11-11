@@ -1,5 +1,5 @@
 package com.company;
-
+//author Sebastian Hejlesen
 import java.io.PipedInputStream;
 import java.util.ArrayList;
 

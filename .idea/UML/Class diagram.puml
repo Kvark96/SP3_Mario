@@ -42,6 +42,7 @@ Class Statistics{
 }
 
 Reader -- Order
+Reader -- System
 Order -left- System
 System -left- Statistics
 Main -- System
