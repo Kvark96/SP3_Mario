@@ -1,5 +1,7 @@
 package com.company;
-
+/*
+        Written by Sebastian Hejlesen
+ */
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.Scanner;

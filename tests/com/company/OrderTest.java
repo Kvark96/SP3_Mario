@@ -1,5 +1,7 @@
 package com.company;
-
+/*
+        Written by Oliver Juul Reder
+ */
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;

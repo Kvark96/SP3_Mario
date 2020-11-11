@@ -1,4 +1,7 @@
 package com.company;
+/*
+*   Made by Sebastian Hejlesen
+*/
 
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,7 @@
 package com.company;
-
+/*
+        Written by Tobias Linge
+ */
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
