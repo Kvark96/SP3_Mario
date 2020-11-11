@@ -15,7 +15,7 @@ public class Statistics {
         soldOrders = new ArrayList<>();
     }
 
-    // Adds pizza to hashmap of soldPizzas.
+    // Adds order to soldOrders.
     public void addOrderToStat(Order order) {
         soldOrders.add(order);
     }
@@ -23,6 +23,7 @@ public class Statistics {
     // Calculates the total revenue of pizzas sold.
     public double getRevenue() {
         double result = 0;
+        if(soldOrders.size() < 1) return 0;
         for(Order o : soldOrders){
             result = result + o.calcPrice();
         }
