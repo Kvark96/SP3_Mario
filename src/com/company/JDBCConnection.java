@@ -18,7 +18,7 @@ public abstract class JDBCConnection {
         }
     }
     
-    public PreparedStatement prepare(String str) throws SQLException {
+    public static PreparedStatement prepare(String str) throws SQLException {
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(str);

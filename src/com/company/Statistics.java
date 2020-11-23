@@ -5,6 +5,8 @@ package com.company;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Statistics {
@@ -30,7 +32,11 @@ public class Statistics {
         return result;
     }
 
-    public void saveOrder(Order order) {
+    public void saveOrder(Order order) throws SQLException {
+
+        PreparedStatement stmt = JDBCConnection.prepare("Select * FROM Orders");
+
+        /*
         String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
         try {
             FileWriter myWriter = new FileWriter(filename, true);
@@ -40,7 +46,7 @@ public class Statistics {
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }
+        }*/
     }
 
     public ArrayList<Order> getSoldOrders() { return soldOrders; }
