@@ -23,13 +23,34 @@ public class Statistics {
     }
 
     // Calculates the total revenue of pizzas sold.
-    public double getRevenue() {
+    // TODO: Rewrite, so getRevenue Joins Statistic and pizzaID to get the prices.
+    public double getRevenue() throws SQLException {
+        double result = 0;
+
+        PreparedStatement getSoldPizzas = JDBCConnection.prepare(
+                "SELECT * FROM Statistic"
+        );
+
+        PreparedStatement getPriceFromPID = JDBCConnection.prepare(
+                "SELECT price FROM pizzaID WHERE PID = ?"
+        );
+
+        ResultSet allPizzas = getSoldPizzas.executeQuery();
+        while(allPizzas.next()){
+            getPriceFromPID.setInt(1, allPizzas.getInt("PID"));
+
+        }
+
+        return result;
+
+        /*
         double result = 0;
         if (soldOrders.size() < 1) return 0;
         for (Order o : soldOrders) {
             result = result + o.calcPrice();
         }
         return result;
+        */
     }
 
     public void saveOrder(int OrderID) throws SQLException {
