@@ -5,8 +5,8 @@ package com.company;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+
 import java.util.ArrayList;
 
 public class Statistics {
@@ -25,16 +25,34 @@ public class Statistics {
     // Calculates the total revenue of pizzas sold.
     public double getRevenue() {
         double result = 0;
-        if(soldOrders.size() < 1) return 0;
-        for(Order o : soldOrders){
+        if (soldOrders.size() < 1) return 0;
+        for (Order o : soldOrders) {
             result = result + o.calcPrice();
         }
         return result;
     }
 
-    public void saveOrder(Order order) throws SQLException {
+    public void saveOrder(int OrderID) throws SQLException {
+        PreparedStatement pullFromOrders = JDBCConnection.prepare(
+                "SELECT * FROM Orders WHERE OrderID = ?"
+        );
 
-        PreparedStatement stmt = JDBCConnection.prepare("Select * FROM Orders");
+        PreparedStatement insertIntoStat = JDBCConnection.prepare(
+                "INSERT INTO Statistic(PID, NumberSold) VALUES (?, ?)"
+        );
+
+
+        pullFromOrders.setInt(1, OrderID);
+        ResultSet rs = pullFromOrders.executeQuery();
+        while (rs.next()) {
+            try {
+                insertIntoStat.setInt(1, rs.getInt(1));
+                insertIntoStat.setInt(2, rs.getInt(2) + 1);
+                insertIntoStat.executeQuery();
+            } catch (SQLException e) {
+                System.out.println("Order could not be saved for pizza = " + rs.getInt(1));
+            }
+        }
 
         /*
         String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
@@ -49,5 +67,7 @@ public class Statistics {
         }*/
     }
 
-    public ArrayList<Order> getSoldOrders() { return soldOrders; }
+    public ArrayList<Order> getSoldOrders() {
+        return soldOrders;
+    }
 }
