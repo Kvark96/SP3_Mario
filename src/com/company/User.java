@@ -41,7 +41,9 @@ public class User {
                     System.out.println("Enter the pickup time :");
                     pickupTime = Integer.parseInt(takeInput());
                     insertOrderIntoOrderID.setInt(1,pickupTime);
-                    currentOrderID = insertOrderIntoOrderID.executeQuery().getInt("OrderID");
+                    insertOrderIntoOrderID.executeUpdate();
+                    PreparedStatement getID = JDBCConnection.prepare("SELECT OrderID FROM OrderID WHERE pickupTime = " + pickupTime);
+                    currentOrderID = getID.executeQuery().getInt("OrderID");
 
                     int id = Integer.parseInt(input.substring(4));
                     insertPizzaIntoOrder.setInt(1, currentOrderID);
@@ -62,6 +64,7 @@ public class User {
 
                 } catch (Exception e) {
                     System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
+                    e.printStackTrace();
                 }
             }
 

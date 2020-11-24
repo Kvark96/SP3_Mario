@@ -22,6 +22,11 @@ public class Systems
         run();
     }
 
+    private void setup() throws SQLException {
+        Reader.readPizzaID();
+        Reader.readPizzaMenu();
+    }
+
 
     public void addOrder(Order order)
     {
@@ -51,20 +56,7 @@ public class Systems
     }
 
     private void updateOrders(){
-        Reader.printPizzaMenu();
-        Reader.printaddonslist();
         printOrders();
-    }
-
-    private void setup(){
-        try {
-            Reader.readAddonMenu();
-            Reader.readPizzaMenu();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Reader.printPizzaMenu();
-        Reader.printaddonslist();
     }
 
 

@@ -1,94 +1,119 @@
 package com.company;
-//author Sebastian Hejlesen
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-
-
+import static com.company.JDBCConnection.*;
 
 public class Reader {
 
-    static List<Pizza> pizzaList = new ArrayList<Pizza>();
-    static List<Addons> addonsList = new ArrayList<Addons>();
+
+    public static void readPizzaMenu() throws SQLException {
+        int bSize = 30;
 
 
+        setup();
 
-    public static void readPizzaMenu() throws IOException {
-        File file = new File("src/Pizzaer.csv");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
+            PreparedStatement Drop = con.prepareStatement("Drop Table IF EXISTS PizzaMenu;");
+            Drop.execute();
+            PreparedStatement Create = con.prepareStatement("\n" +
+                    "CREATE TABLE PizzaMenu(\n" +
+                    "\tPID INTEGER  NOT NULL AUTO_INCREMENT primary Key,\n" +
+                    "    Name VARCHAR(30),\n" +
+                    "    Ingredients VARCHAR(200)\n" +
+                    "   );");
+            Create.execute();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO PizzaMenu (Name, Ingredients) VALUES(?,?)");
+            File file = new File("src/PizzaMenu.csv");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            int count = 0;
 
-        String line = null;
-        Scanner scanner = null;
-        int index = 0;
-
-
-        while ((line = reader.readLine()) != null) {
-            scanner = new Scanner(line);
-            scanner.useDelimiter(";");
-            Pizza pizza = new Pizza();
-            pizzaList.add(pizza);
-            index = 0;
-            while (scanner.hasNext()) {
-                String data = scanner.next();
-                if (index == 0) {
-                    pizza.setId((Integer.parseInt(data)));
-                } else if (index == 1) {
-                    pizza.setName(data);
-                } else if (index == 2) {
-                    pizza.setPrice(Double.parseDouble(data));
-                } else {
-                    System.out.println("invalid data::" + data);
-                }
-                index++;
-            }
-        }
-
-    }
-
-
-    public static void readAddonMenu() throws IOException {
-        File file = new File("src/Addons.csv");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = null;
-        Scanner scanner = null;
-        int index = 0;
-
-        try{
+            reader.readLine();
             while ((line = reader.readLine()) != null) {
-                scanner = new Scanner(line);
-                scanner.useDelimiter(";");
-                Addons addon = new Addons(0, "cheese", 0);
-                addonsList.add(addon);
-                index = 0;
-                while (scanner.hasNext()) {
-                    String data = scanner.next();
-                    if (index == 0) {
-                        addon.setId((Integer.parseInt(data)));
-                    } else if (index == 1) {
-                        addon.setName(data);
-                    } else if (index == 2) {
-                        addon.setPrice(Double.parseDouble(data));
-                    } else {
-                        System.out.println("invalid data::" + data);
-                    }
-                    index++;
+                String[] data = line.split(";");
+                String Name = data[0];
+                String Ingredients = data[1];
+
+
+                statement.setString(1, Name);
+                statement.setString(2, Ingredients);
+
+                statement.addBatch();
+
+                if (count % bSize == 0) {
+                    statement.executeBatch();
                 }
-                }
-            }catch(IOException e){
-            System.out.println("Addons file cannot be found.");
-            System.out.println(e.getStackTrace());
+            }
+            reader.close();
+
+            statement.executeBatch();
+
+
+
+
+
+        } catch (SQLException | IOException e) {
+            System.err.println(e);
+
         }
+
+
     }
 
 
-    public static void printPizzaMenu() {
-        System.out.println(pizzaList);
-    }
+    public static void readPizzaID() throws SQLException {
+        int bSize = 30;
+        try {
+            PreparedStatement use = con.prepareStatement("use mario2;");
+            use.executeQuery();
 
-    public static void printaddonslist() {
-        System.out.println(addonsList);
+            PreparedStatement Drop = con.prepareStatement("Drop Table IF EXISTS PizzaID;");
+            Drop.execute();
+            PreparedStatement Create = con.prepareStatement("  CREATE TABLE PizzaID(\n" +
+                    "\tPID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    Price INTEGER\n" +
+                    "    );");
+            Create.execute();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO PizzaID (Price) VALUES(?)");
+            File file = new File("src/PizzaID.csv");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            int count = 0;
+
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] data1 = line.split(";");
+                int Price = Integer.parseInt(data1[0]);
+
+
+                statement.setInt(1, Price);
+
+                statement.addBatch();
+
+                if (count % bSize == 0) {
+                    statement.executeBatch();
+                }
+            }
+            reader.close();
+
+            statement.executeBatch();
+
+
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            System.err.println(e);
+
+        }
+
+
     }
 }
