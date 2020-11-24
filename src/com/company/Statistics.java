@@ -3,8 +3,6 @@ package com.company;
     Written by Oliver Juul Reder on the 03.11.2020.
 */
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -12,9 +10,14 @@ import java.util.ArrayList;
 public class Statistics {
 
     private ArrayList<Order> soldOrders;
+    PreparedStatement pullFromOrders;
+    PreparedStatement insertIntoStat;
+    PreparedStatement joinAndGetPrice;
 
-    public Statistics() {
+
+    public Statistics() throws SQLException {
         soldOrders = new ArrayList<>();
+        prepareStms();
     }
 
     // Adds order to soldOrders.
@@ -23,22 +26,17 @@ public class Statistics {
     }
 
     // Calculates the total revenue of pizzas sold.
-    // TODO: Rewrite, so getRevenue Joins Statistic and pizzaID to get the prices.
     public double getRevenue() throws SQLException {
         double result = 0;
 
-        PreparedStatement getSoldPizzas = JDBCConnection.prepare(
-                "SELECT * FROM Statistic"
-        );
-
-        PreparedStatement getPriceFromPID = JDBCConnection.prepare(
-                "SELECT price FROM pizzaID WHERE PID = ?"
-        );
-
-        ResultSet allPizzas = getSoldPizzas.executeQuery();
-        while(allPizzas.next()){
-            getPriceFromPID.setInt(1, allPizzas.getInt("PID"));
-
+        ResultSet prices = joinAndGetPrice.executeQuery();
+        while(prices.next()){
+            try{
+                result += prices.getInt("Price") * prices.getInt("NumberSold");
+            } catch(SQLException e){
+                System.out.println("Something went wrong while processing the revenue");
+                e.printStackTrace();
+            }
         }
 
         return result;
@@ -54,14 +52,6 @@ public class Statistics {
     }
 
     public void saveOrder(int OrderID) throws SQLException {
-        PreparedStatement pullFromOrders = JDBCConnection.prepare(
-                "SELECT * FROM Orders WHERE OrderID = ?"
-        );
-
-        PreparedStatement insertIntoStat = JDBCConnection.prepare(
-                "INSERT INTO Statistic(PID, NumberSold) VALUES (?, ?)"
-        );
-
 
         pullFromOrders.setInt(1, OrderID);
         ResultSet rs = pullFromOrders.executeQuery();
@@ -90,5 +80,20 @@ public class Statistics {
 
     public ArrayList<Order> getSoldOrders() {
         return soldOrders;
+    }
+
+    private void prepareStms() throws SQLException {
+        joinAndGetPrice = JDBCConnection.prepare(
+                "SELECT * FROM statistic JOIN pizzaID ON PizzaID = PID;"
+        );
+
+
+        pullFromOrders = JDBCConnection.prepare(
+                "SELECT * FROM Orders WHERE OrderID = ?"
+        );
+
+        insertIntoStat = JDBCConnection.prepare(
+                "INSERT INTO Statistic(PID, NumberSold) VALUES (?, ?)"
+        );
     }
 }
