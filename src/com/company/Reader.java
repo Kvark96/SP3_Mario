@@ -4,18 +4,23 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.sql.*;
 
 
 
 
 
-public class Reader {
-
-    static List<Pizza> pizzaList = new ArrayList<Pizza>();
-    static List<Addons> addonsList = new ArrayList<Addons>();
 
 
 
+public class Reader extends JDBCConnection {
+
+    Setup();
+
+
+     String sql = "INSERT Into Mario2 (PID, Name, Ingredients) VALUES(?,?,?)";
+     Connection connection;
+     PreparedStatement statement = con.prepare(sql,"INSERT Into Mario2 (PID, Name, Ingredients) VALUES(?,?,?)");
     public static void readPizzaMenu() throws IOException {
         File file = new File("src/Pizzaer.csv");
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -26,13 +31,28 @@ public class Reader {
 
 
         while ((line = reader.readLine()) != null) {
+            String[] data = line.split(", ");
+            String PID = data[0];
+            String Name = data [1];
+            String Ingredients = data[2];
+
+            statement.
+
+
+
+
+
+
+
+
+
             scanner = new Scanner(line);
             scanner.useDelimiter(";");
             Pizza pizza = new Pizza();
             pizzaList.add(pizza);
             index = 0;
             while (scanner.hasNext()) {
-                String data = scanner.next();
+
                 if (index == 0) {
                     pizza.setId((Integer.parseInt(data)));
                 } else if (index == 1) {
