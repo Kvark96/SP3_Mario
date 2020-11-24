@@ -1,5 +1,6 @@
 package com.company;
 //author Sebastian Hejlesen
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,45 +8,72 @@ import java.util.Scanner;
 import java.sql.*;
 
 
-
-
-
-
-
-
 public class Reader extends JDBCConnection {
 
-    Setup();
+
+    public static void main(String[] args) throws SQLException {
+        int bSize = 30;
+        Connection connection = null;
+
+        setup();
+
+        try {
 
 
-     String sql = "INSERT Into Mario2 (PID, Name, Ingredients) VALUES(?,?,?)";
-     Connection connection;
-     PreparedStatement statement = con.prepare(sql,"INSERT Into Mario2 (PID, Name, Ingredients) VALUES(?,?,?)");
-    public static void readPizzaMenu() throws IOException {
-        File file = new File("src/Pizzaer.csv");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-
-        String line = null;
-        Scanner scanner = null;
-        int index = 0;
+            PreparedStatement statement = con.prepareStatement("INSERT Into PizzaMenu (Name, Ingredients) VALUES(,?,?)");
 
 
-        while ((line = reader.readLine()) != null) {
-            String[] data = line.split(", ");
-            String PID = data[0];
-            String Name = data [1];
-            String Ingredients = data[2];
+            File file = new File("src/PizzaMenu.csv");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
 
-            statement.
-
+            String line = null;
+            Scanner scanner = null;
+            int count = 0;
 
 
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(", ");
+                String Name = data[0];
+                String Ingredients = data[1];
+
+
+                statement.setString(1, Name);
+                statement.setString(2, Ingredients);
+
+                statement.addBatch();
+
+                if (count % bSize == 0) {
+                    statement.executeBatch();
+                }
+            }
+            reader.close();
+
+            statement.executeBatch();
+                    con.commit();
+                con.close();
+
+
+
+        } catch (SQLException | IOException e) {
+            System.err.println(e);
+
+        }
+
+
+    }
+}
 
 
 
 
 
 
+
+
+
+
+
+/*
             scanner = new Scanner(line);
             scanner.useDelimiter(";");
             Pizza pizza = new Pizza();
@@ -112,3 +140,4 @@ public class Reader extends JDBCConnection {
         System.out.println(addonsList);
     }
 }
+*/
