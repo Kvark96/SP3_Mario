@@ -4,6 +4,8 @@ package com.company;
 
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Systems
@@ -11,8 +13,9 @@ public class Systems
     ArrayList<Order> orderArrayList;
     Statistics statistic;
     User user = new User();
+    PreparedStatement removeOrder;
 
-    public Systems() {
+    public Systems() throws SQLException {
         orderArrayList = new ArrayList<Order>();
         this.statistic = new Statistics();
         setup();
@@ -33,19 +36,10 @@ public class Systems
         try{
             int in = Integer.parseInt(input);
             int del = -1;
-            for(int n = 0; n < orderArrayList.size(); n++){
-                if(in == orderArrayList.get(n).orderNumber){
-                    del = n;
-                }
-            }
             try{
                 System.out.println("Save order in statistics? y / n");
-                if(user.takeInput().toLowerCase().startsWith("y")){
-                    statistic.saveOrder(orderArrayList.get(del));
-                    statistic.addOrderToStat(orderArrayList.get(del));
-                    orderArrayList.remove(del);
-                } else {
-                    orderArrayList.remove(del);
+                if(user.takeInput().startsWith("y")){
+
                 }
             } catch(Exception e){
                 System.out.println("Input was not recognized.");
@@ -74,7 +68,7 @@ public class Systems
     }
 
 
-    private void run(){
+    private void run() throws SQLException {
         System.out.println("Please enter \"new order\", \"remove order\" or \"close\".");
         String input = user.takeInput().toLowerCase();
         switch (input) {
@@ -99,5 +93,11 @@ public class Systems
         for(Order o : orderArrayList){
             System.out.println(o);
         }
+    }
+
+    private void prepareStmts() throws SQLException {
+        removeOrder = JDBCConnection.prepare(
+                "DELETE FROM Orders WHERE OrderID = ?"
+        );
     }
 }

@@ -8,22 +8,15 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Statistics {
-
-    private ArrayList<Order> soldOrders;
     PreparedStatement pullFromOrders;
     PreparedStatement insertIntoStat;
     PreparedStatement joinAndGetPrice;
 
 
     public Statistics() throws SQLException {
-        soldOrders = new ArrayList<>();
         prepareStms();
     }
 
-    // Adds order to soldOrders.
-    public void addOrderToStat(Order order) {
-        soldOrders.add(order);
-    }
 
     // Calculates the total revenue of pizzas sold.
     public double getRevenue() throws SQLException {
@@ -38,17 +31,7 @@ public class Statistics {
                 e.printStackTrace();
             }
         }
-
         return result;
-
-        /*
-        double result = 0;
-        if (soldOrders.size() < 1) return 0;
-        for (Order o : soldOrders) {
-            result = result + o.calcPrice();
-        }
-        return result;
-        */
     }
 
     public void saveOrder(int OrderID) throws SQLException {
@@ -64,22 +47,6 @@ public class Statistics {
                 System.out.println("Order could not be saved for pizza = " + rs.getInt(1));
             }
         }
-
-        /*
-        String filename = java.time.LocalDate.now().toString() + "_statistics.txt";
-        try {
-            FileWriter myWriter = new FileWriter(filename, true);
-            myWriter.write(order + "\n");
-            myWriter.close();
-            System.out.println("Successfully saved order.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }*/
-    }
-
-    public ArrayList<Order> getSoldOrders() {
-        return soldOrders;
     }
 
     private void prepareStms() throws SQLException {

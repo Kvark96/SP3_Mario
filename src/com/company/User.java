@@ -3,11 +3,21 @@ package com.company;
     Written by Oliver Juul Reder on the 09.11.2020.
 */
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class User {
-    public User() {
+    PreparedStatement insertPizzaIntoOrder;
+    PreparedStatement insertOrderIntoOrderID;
+    PreparedStatement lookForID;
+    PreparedStatement currentOrder;
+    PreparedStatement removeOrder;
+
+    public User() throws SQLException {
+        prepareStmts();
     }
 
     public String takeInput() {
@@ -19,6 +29,7 @@ public class User {
         boolean finished = false;
         ArrayList<Pizza> pizzasInOrder = new ArrayList<>();
         int pickupTime = -1;
+        int currentOrderID = -1;
 
         System.out.println("Enter the new order - type \"add\" and pizza \"number\".");
         while (!finished) {
@@ -27,36 +38,28 @@ public class User {
             // Add pizza to order
             if (input.startsWith("add")) {
                 try {
-                    Pizza newPizza;
-                    int id = Integer.parseInt(input.substring(4));
-                    for (Pizza p : Reader.pizzaList) {
-                        if (id == p.id) {
-                            newPizza = p;
-                            System.out.println("Please select addons - type \"number\" or type \"done\" if finished.");
+                    System.out.println("Enter the pickup time :");
+                    pickupTime = Integer.parseInt(takeInput());
+                    insertOrderIntoOrderID.setInt(1,pickupTime);
+                    currentOrderID = insertOrderIntoOrderID.executeQuery().getInt("OrderID");
 
-                            boolean moreAddons = true;
-                            while(moreAddons) {
-                                input = takeInput();
-                                if (input.startsWith("done")) {
-                                    moreAddons = false;
-                                    System.out.println("Add additional pizzas - type \"add\" and pizza \"number\" or type \"end\" to finish the order." );
-                                } else {
-                                    try {
-                                        int addonId = Integer.parseInt(input);
-                                        for (Addons a : Reader.addonsList) {
-                                            if (addonId == a.getId()) {
-                                                newPizza.addonList.add(a);
-                                                System.out.println(a + " was added. \nTo add more type \"number\" or type \"done\" if finished.");
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
-                                    }
-                                }
-                            }
-                            pizzasInOrder.add(newPizza);
-                        }
+                    int id = Integer.parseInt(input.substring(4));
+                    insertPizzaIntoOrder.setInt(1, currentOrderID);
+                    insertPizzaIntoOrder.setInt(2, id);
+                    lookForID.setInt(1, id);
+                    insertPizzaIntoOrder.executeQuery();
+                    ResultSet pizzaName = lookForID.executeQuery();
+                    System.out.println("Pizza + " + pizzaName.getString("Name") + " was added.");
+                    currentOrder.setInt(1, currentOrderID);
+                    ResultSet currentPizzas = currentOrder.executeQuery();
+
+                    System.out.println("Current order is: ");
+                    while(currentPizzas.next()){
+                        System.out.println(currentPizzas.getString("PID"));
                     }
+
+                    System.out.println("Add additional pizzas - type \"add\" and pizza \"number\" or type \"end\" to finish the order." );
+
                 } catch (Exception e) {
                     System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
                 }
@@ -66,12 +69,10 @@ public class User {
             if (input.startsWith("remove ")) {
                 try {
                     int id = Integer.parseInt(input.substring(7));
-                    for (Pizza p : Reader.pizzaList) {
-                        if (id == p.id) {
-                            pizzasInOrder.remove(p);
-                            System.out.println("Pizza " + id + " was removed from the order.");
-                        }
-                    }
+                    removeOrder.setInt(1, currentOrderID);
+                    removeOrder.setInt(2, id);
+                    removeOrder.executeQuery();
+                    System.out.println("Pizza " + id + " was removed.");
                 } catch (Exception e) {
                     System.out.println("ID = \"" + input + "\" was not recognized. Please try again.");
                 }
@@ -79,16 +80,29 @@ public class User {
 
             // End order selection
             if (input.equals("end")) {
-                try {
-                    System.out.println("Enter the pickup time :");
-                    pickupTime = Integer.parseInt(takeInput());
-                    finished = true;
-                } catch (Exception e) {
-                    System.out.println("Pickup time was not recognized. Type \"end\" to try again.");
-                }
+                finished = true;
             }
         }
 
         return new Order(pizzasInOrder, pickupTime);
+    }
+
+    private void prepareStmts() throws SQLException {
+        insertPizzaIntoOrder = JDBCConnection.prepare(
+                "INSERT INTO Orders (OrderID, PID) VALUES (?,?)"
+        );
+        insertOrderIntoOrderID = JDBCConnection.prepare(
+                "INSERT INTO OrderID (OrderTime, PickUpTime) VALUES (CURRENT_TIMESTAMP, ?)"
+        );
+        lookForID = JDBCConnection.prepare(
+                "SELECT Name FROM pizzaMenu WHERE PID = ?"
+        );
+        currentOrder = JDBCConnection.prepare(
+                "SELECT * FROM Orders WHERE OrderID = ?"
+        );
+        removeOrder = JDBCConnection.prepare(
+                "DELETE FROM Orders WHERE OrderID = ? AND PID = ?"
+        );
+
     }
 }
