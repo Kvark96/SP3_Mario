@@ -5,6 +5,7 @@ package com.company;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,6 +19,9 @@ public class SystemsTest {
     ArrayList<Order> orderList = new ArrayList<>();
     File A = new File("src/Addons.csv");
     File P = new File("src/Pizzaer.csv");
+
+    public SystemsTest() throws SQLException {
+    }
 
     @Test
     void addOrderTest()

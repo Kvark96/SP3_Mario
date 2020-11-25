@@ -11,10 +11,11 @@ import java.util.Scanner;
 
 public class User {
     PreparedStatement insertPizzaIntoOrder;
-    PreparedStatement insertOrderIntoOrderID;
-    PreparedStatement lookForID;
+    PreparedStatement addPickupTimeToOrder;
+    PreparedStatement getPizzaNameFromID;
     PreparedStatement currentOrder;
     PreparedStatement removeOrder;
+    PreparedStatement createEmptyOrder;
 
     public User() throws SQLException {
         prepareStmts();
@@ -25,39 +26,38 @@ public class User {
         return input.nextLine();
     }
 
-    public Order newOrder() {
+    public Order newOrder() throws SQLException {
         boolean finished = false;
         ArrayList<Pizza> pizzasInOrder = new ArrayList<>();
         int pickupTime = -1;
-        int currentOrderID = -1;
+        createEmptyOrder.execute();
+        PreparedStatement getID = JDBCConnection.prepare("SELECT * FROM OrderID ORDER BY OrderID DESC LIMIT 1");
+        ResultSet idSet = getID.executeQuery();
+        idSet.next();
+        int currentOrderID = idSet.getInt("OrderID");
 
         System.out.println("Enter the new order - type \"add\" and pizza \"number\".");
         while (!finished) {
             String input = takeInput();
 
+
             // Add pizza to order
             if (input.startsWith("add")) {
                 try {
-                    System.out.println("Enter the pickup time :");
-                    pickupTime = Integer.parseInt(takeInput());
-                    insertOrderIntoOrderID.setInt(1,pickupTime);
-                    insertOrderIntoOrderID.executeUpdate();
-                    PreparedStatement getID = JDBCConnection.prepare("SELECT OrderID FROM OrderID WHERE pickupTime = " + pickupTime);
-                    ResultSet WHYDOINEEDARESULTSET = getID.executeQuery();
-                    WHYDOINEEDARESULTSET.next();
-                    currentOrderID = WHYDOINEEDARESULTSET.getInt("OrderID");
+
 
                     int id = Integer.parseInt(input.substring(4));
                     insertPizzaIntoOrder.setInt(1, currentOrderID);
                     insertPizzaIntoOrder.setInt(2, id);
-                    lookForID.setInt(1, id);
+                    getPizzaNameFromID.setInt(1, id);
                     insertPizzaIntoOrder.executeUpdate();
-                    ResultSet pizzaName = lookForID.executeQuery();
+                    ResultSet pizzaName = getPizzaNameFromID.executeQuery();
                     pizzaName.next();
-                    System.out.println("Pizza + " + pizzaName.getString("Name") + " was added.");
+                    System.out.println("Pizza " + pizzaName.getString("Name") + " was added.");
                     currentOrder.setInt(1, currentOrderID);
                     ResultSet currentPizzas = currentOrder.executeQuery();
 
+                    System.out.println("Order ID is: " + currentOrderID);
                     System.out.println("Current order is: ");
                     while(currentPizzas.next()){
                         System.out.println(currentPizzas.getString("PID"));
@@ -86,6 +86,11 @@ public class User {
 
             // End order selection
             if (input.equals("end")) {
+                System.out.println("Enter the pickup time :");
+                pickupTime = Integer.parseInt(takeInput());
+                addPickupTimeToOrder.setInt(1, currentOrderID);
+                addPickupTimeToOrder.setInt(2,pickupTime);
+                addPickupTimeToOrder.executeUpdate();
                 finished = true;
             }
         }
@@ -97,10 +102,10 @@ public class User {
         insertPizzaIntoOrder = JDBCConnection.prepare(
                 "INSERT INTO Orders (OrderID, PID) VALUES (?,?)"
         );
-        insertOrderIntoOrderID = JDBCConnection.prepare(
-                "INSERT INTO OrderID (OrderTime, PickUpTime) VALUES (CURRENT_TIMESTAMP, ?)"
+        addPickupTimeToOrder = JDBCConnection.prepare(
+                "UPDATE OrderID SET PickupTime = ? WHERE OrderID = ?"
         );
-        lookForID = JDBCConnection.prepare(
+        getPizzaNameFromID = JDBCConnection.prepare(
                 "SELECT Name FROM pizzaMenu WHERE PID = ?"
         );
         currentOrder = JDBCConnection.prepare(
@@ -108,6 +113,10 @@ public class User {
         );
         removeOrder = JDBCConnection.prepare(
                 "DELETE FROM Orders WHERE OrderID = ? AND PID = ?"
+        );
+
+        createEmptyOrder = JDBCConnection.prepare(
+                "INSERT INTO OrderID(OrderTime) VALUES (CURRENT_TIMESTAMP)"
         );
 
     }

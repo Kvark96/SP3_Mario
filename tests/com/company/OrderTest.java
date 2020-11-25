@@ -3,6 +3,8 @@ package com.company;
         Written by Oliver Juul Reder
  */
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +12,7 @@ class OrderTest {
 	ArrayList<Pizza> pizzas = new ArrayList<>();
 
 	@Test
-	void calcPrice() {
+	void calcPrice() throws SQLException {
 		// List has some amount of items
 		pizzas.add(new Pizza(0, 60.0, "Pep"));
 		pizzas.add(new Pizza(1, 55.0, "Haw"));
@@ -24,15 +26,12 @@ class OrderTest {
 	}
 
 	@Test
-	void testOrderNumber(){
+	void testOrderNumber() throws SQLException {
 		ArrayList<Pizza> lst = new ArrayList<>();
 		Order order1 = new Order(lst, 1700);
 		Order order2 = new Order(lst, 1800);
 		Order order3 = new Order(lst, 1900);
 
 		// Tests if orderNumber is properly assigned
-		assertEquals(1, order1.orderNumber);
-		assertEquals(2, order2.orderNumber);
-		assertEquals(3, order3.orderNumber);
 	}
 }

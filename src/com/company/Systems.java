@@ -13,11 +13,13 @@ public class Systems
     ArrayList<Order> orderArrayList;
     Statistics statistic;
     User user = new User();
-    PreparedStatement removeOrder;
+    PreparedStatement removeFromOrders;
+    PreparedStatement removeFromOrderID;
 
     public Systems() throws SQLException {
         orderArrayList = new ArrayList<Order>();
         this.statistic = new Statistics();
+        prepareStmts();
         setup();
         run();
     }
@@ -40,17 +42,26 @@ public class Systems
         String input = user.takeInput();
         try{
             int in = Integer.parseInt(input);
-            int del = -1;
+
             try{
                 System.out.println("Save order in statistics? y / n");
                 if(user.takeInput().startsWith("y")){
-
+                    statistic.saveOrder(in);
                 }
+
+                removeFromOrders.setInt(1, in);
+                removeFromOrders.executeUpdate();
+
+                removeFromOrderID.setInt(1, in);
+                removeFromOrderID.executeUpdate();
+
             } catch(Exception e){
                 System.out.println("Input was not recognized.");
+                e.printStackTrace();
             }
         } catch (Exception e){
             System.out.println("Order Number was not recognized.");
+            e.printStackTrace();
         }
         updateOrders();
     }
@@ -88,8 +99,12 @@ public class Systems
     }
 
     private void prepareStmts() throws SQLException {
-        removeOrder = JDBCConnection.prepare(
+        removeFromOrders = JDBCConnection.prepare(
                 "DELETE FROM Orders WHERE OrderID = ?"
+        );
+
+        removeFromOrderID = JDBCConnection.prepare(
+                "DELETE FROM OrderID WHERE OrderID = ?"
         );
     }
 }
