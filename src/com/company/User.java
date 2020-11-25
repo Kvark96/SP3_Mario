@@ -43,14 +43,17 @@ public class User {
                     insertOrderIntoOrderID.setInt(1,pickupTime);
                     insertOrderIntoOrderID.executeUpdate();
                     PreparedStatement getID = JDBCConnection.prepare("SELECT OrderID FROM OrderID WHERE pickupTime = " + pickupTime);
-                    currentOrderID = getID.executeQuery().getInt("OrderID");
+                    ResultSet WHYDOINEEDARESULTSET = getID.executeQuery();
+                    WHYDOINEEDARESULTSET.next();
+                    currentOrderID = WHYDOINEEDARESULTSET.getInt("OrderID");
 
                     int id = Integer.parseInt(input.substring(4));
                     insertPizzaIntoOrder.setInt(1, currentOrderID);
                     insertPizzaIntoOrder.setInt(2, id);
                     lookForID.setInt(1, id);
-                    insertPizzaIntoOrder.executeQuery();
+                    insertPizzaIntoOrder.executeUpdate();
                     ResultSet pizzaName = lookForID.executeQuery();
+                    pizzaName.next();
                     System.out.println("Pizza + " + pizzaName.getString("Name") + " was added.");
                     currentOrder.setInt(1, currentOrderID);
                     ResultSet currentPizzas = currentOrder.executeQuery();

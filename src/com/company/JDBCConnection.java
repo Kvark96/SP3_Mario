@@ -9,7 +9,7 @@ public abstract class JDBCConnection {
     public static java.sql.Connection con = null;
 
     public static void setup() throws SQLException {
-        String url = "jdbc:mysql://localhost/world";
+        String url = "jdbc:mysql://localhost/mario2";
         String user = "java";
         String pw = "java";
         try {
