@@ -3,6 +3,8 @@ package com.company;
 // Written by Tobias Linge 05-11-2020.
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class Systems
     PreparedStatement removeFromOrders;
     PreparedStatement removeFromOrderID;
 
-    public Systems() throws SQLException {
+    public Systems() throws SQLException, FileNotFoundException {
         orderArrayList = new ArrayList<Order>();
         this.statistic = new Statistics();
         prepareStmts();
@@ -23,9 +25,17 @@ public class Systems
         run();
     }
 
-    private void setup() throws SQLException {
+    private void setup() throws SQLException, FileNotFoundException {
+
+        // For some reason, running the SQL script makes 'createEmptyOrder' in 'User' not work.
+        /*try{
+            Reader.runSQL();
+        } catch(FileNotFoundException e){
+            System.out.println("Could not find the SQL file.");
+        }*/
         Reader.readPizzaID();
         Reader.readPizzaMenu();
+        Reader.displayPizzaMenu();
     }
 
 

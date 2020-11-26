@@ -8,17 +8,17 @@ USE Mario2;
 -- table PizzaMenu (PID, Name, Ingredients)
 -- table Addons()
 
-CREATE TABLE Orders(
-	OrderID INTEGER NOT NULL PRIMARY KEY,
-    PID INTEGER NOT NULL
-    );
 CREATE TABLE OrderID(
     OrderID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     OrderTime Timestamp,
-    PickupTime TIME,
-    FOREIGN KEY (OrderID) REFERENCES Orders (OrderID)
+    PickupTime INTEGER,
+    Price INTEGER
 );
-
+CREATE TABLE Orders(
+	OrderID INTEGER NOT NULL,
+    PID INTEGER NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES OrderID (OrderID)
+    );
 CREATE TABLE PizzaID(
 	PID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Price INTEGER
@@ -29,6 +29,6 @@ CREATE TABLE PizzaMenu(
     Ingredients VARCHAR(200)
 );
 CREATE TABLE Statistic(
-	PizzaID INTEGER NOT NULL PRIMARY KEY,
-    NumberSold INTEGER NOT NULL
+	OrderID INTEGER NOT NULL,
+    PID INTEGER NOT NULL
 );

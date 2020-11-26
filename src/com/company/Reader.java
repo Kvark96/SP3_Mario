@@ -1,13 +1,11 @@
 package com.company;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import org.apache.ibatis.jdbc.ScriptRunner;
 
 import static com.company.JDBCConnection.*;
 
@@ -116,4 +114,31 @@ public class Reader {
 
 
     }
+
+    public static void runSQL() throws FileNotFoundException {
+        ScriptRunner sr = new ScriptRunner(con);
+        File sqlFile = new File("database.sql");
+        BufferedReader sqlReader = new BufferedReader(new FileReader(sqlFile));
+        sr.runScript(sqlReader);
+    }
+
+    public static void displayPizzaMenu() throws SQLException {
+        Statement SelectPizzastoPrint = con.createStatement();
+        String getData = "select * from PizzaMenu ;";
+
+        ResultSet PizzaDatas = SelectPizzastoPrint.executeQuery(getData);
+        while (PizzaDatas.next()) {
+            String PID = PizzaDatas.getString(1);
+            String Name = PizzaDatas.getString(2);
+            String Ingredients = PizzaDatas.getString(3);
+            System.out.println("Pizza nummer: " + PID);
+            System.out.println("Navn:" +Name);
+            System.out.println("Indeholder:" + Ingredients);
+            System.out.println("");
+
+
+        }
+
+    }
+
 }
