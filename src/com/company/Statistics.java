@@ -5,12 +5,11 @@ package com.company;
 
 import java.sql.*;
 
-import java.util.ArrayList;
-
 public class Statistics {
     PreparedStatement pullFromOrders;
     PreparedStatement insertIntoStat;
-    PreparedStatement joinAndGetPrice;
+    PreparedStatement countNumberOfPID;
+    PreparedStatement getPriceFromID;
 
 
     public Statistics() throws SQLException {
@@ -22,45 +21,53 @@ public class Statistics {
     public double getRevenue() throws SQLException {
         double result = 0;
 
-        ResultSet prices = joinAndGetPrice.executeQuery();
-        while(prices.next()){
-            try{
-                result += prices.getInt("Price") * prices.getInt("NumberSold");
-            } catch(SQLException e){
-                System.out.println("Something went wrong while processing the revenue");
+        for(int i = 1; i < 31; i++){
+            try {
+                countNumberOfPID.setInt(1, i);
+
+                ResultSet numberOfPizzas = countNumberOfPID.executeQuery();
+                numberOfPizzas.next();
+
+                getPriceFromID.setInt(1, i);
+                ResultSet priceOfPizza = getPriceFromID.executeQuery();
+                priceOfPizza.next();
+
+                result += priceOfPizza.getInt("Price") * numberOfPizzas.getInt(1);
+            } catch (SQLException e){
+                System.out.println("Something went wrong while finding the revenue");
                 e.printStackTrace();
             }
         }
+
         return result;
     }
 
     public void saveOrder(int OrderID) throws SQLException {
-
         pullFromOrders.setInt(1, OrderID);
-        ResultSet rs = pullFromOrders.executeQuery();
-        while (rs.next()) {
-            try {
-                insertIntoStat.setInt(1, rs.getInt(1));
-                insertIntoStat.setInt(2, rs.getInt(2) + 1);
-                insertIntoStat.executeQuery();
-            } catch (SQLException e) {
-                System.out.println("Order could not be saved for pizza = " + rs.getInt(1));
-            }
+        ResultSet order = pullFromOrders.executeQuery();
+        while(order.next()){
+            insertIntoStat.setInt(1, OrderID);
+            insertIntoStat.setInt(2, order.getInt("PID"));
+            insertIntoStat.executeUpdate();
         }
     }
 
     private void prepareStms() throws SQLException {
-        joinAndGetPrice = JDBCConnection.prepare(
-                "SELECT * FROM statistic JOIN pizzaID ON PizzaID = PID;"
+        countNumberOfPID = JDBCConnection.prepare(
+                "SELECT COUNT(*) FROM Statistic WHERE PID = ?"
         );
 
+
+        getPriceFromID = JDBCConnection.prepare(
+                "SELECT Price FROM pizzaID WHERE PID = ?"
+        );
 
         pullFromOrders = JDBCConnection.prepare(
                 "SELECT * FROM Orders WHERE OrderID = ?"
         );
 
         insertIntoStat = JDBCConnection.prepare(
-                "INSERT INTO Statistic(PID, NumberSold) VALUES (?, ?)"
+                "INSERT INTO Statistic(OrderID, PID) VALUES (?, ?)"
         );
     }
 }

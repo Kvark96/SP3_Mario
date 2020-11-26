@@ -3,7 +3,6 @@ package com.company;
 // Written by Tobias Linge 05-11-2020.
 
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
